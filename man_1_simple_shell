@@ -1,0 +1,26 @@
+.\" Manpage for Simple_Shell.
+.\" Contact evanrich2404@gmail.com to correct errors or typos.
+.TH man_1_simple_shell "date insert here" "1.0(?)" "simple_shell man page"
+.SH NAME
+simple_shell /- replicates SHell, interactive, commands, error checks, more...
+.SH SYNOPSIS
+
+.SH DESCRIPTION
+
+.SS OPTIONS
+.TP
+
+
+.TP
+
+
+.TP
+
+
+.TP
+
+
+.SH BUGS
+
+.SH AUTHORS
+Jon Boller, Evan Richardson
