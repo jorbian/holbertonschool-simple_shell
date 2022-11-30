@@ -1,8 +1,7 @@
-#ifndef OOP_MONTY_H
-#define OOP_MONTY_H
+#ifndef MONTY_H
+#define MONTY_H
 
-#include "stringbuff.h"
-#include "scriptbuff.h"
+#include "stringdata.h"
 #include "command.h"
 #include "errors.h"
 #include "stack.h"

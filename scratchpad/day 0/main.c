@@ -1,4 +1,4 @@
-#include "oop_monty.h"
+#include "monty.h"
 
 int main(int argc, char *argv[])
 {

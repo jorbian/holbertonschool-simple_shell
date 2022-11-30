@@ -1,0 +1,53 @@
+I have tried to reorganize the repo to try to keep files in the
+root directory as close to what their final versions will be as possible
+or what I/we think their final versions will looks like. For the moment
+I plan on keeping my notes in a folder called scratchpad with a folder for 
+each project day so that I can refer back to them easier. Saturday will
+be day 0 and this will be day one.
+
+I would like to use three structs like Java/Python style objects:
+
+                             CommandParser
+PROPERTIES--
++    raw_input -- whatever input was last recieved as a string)
++    error_tripped -- integer value 0, for no error, or 1 if there's an error
++    command_tokens -- doubly linked list of whatever raw_input is tokenised to
++    history -- ideally, a [10][255] character array containing last 10 inputs
++    command_table -- a hash table used to 'direct traffic' based on first token
+METHODS (i.e. special functions used to build, change or maniplate the CP)--
++    int create_parser(**self) -- the first thing we invoke in main
++    int move_line(**self, *new_input) -- take line from either scriptbuffer or REPL
++    void (*find_command)(**self) -- attempt to match first token to list of commands
++    void free_parser(**self) -- deallocate memory the parser was using
+
+                             ScriptBuffer
+PROPERTIES--
++    curr_line -- contents of the input file read into dlinked list of strings
++    curr_line_num -- line number of the line curr_line points to
++    error_tripped -- integer value 0, for no error, or 1 if there's an error
+METHODS (again, special functions used to build, change or maniplate the SP)--
++    int create_script_buffer(**self) -- allocate memory and set inital values
++    int load_script(**self, *file_name) -- find file and load it into the buffer
++    int move_2_next_line(**self) -- move forward one line
++    int list_script(**self) -- list whatever is currently in buffer (for testing)
++    void free_script(**self) -- deallocate memory
+
+                             REPL (Read-Evaluate-Print-Lo)
+PROPERTIES --
+(tbd.)
+METHODS --
+(tbd.)
+
+Double pointers are really really nice and if we use them right it means that our 
+entire program is based on how these three specific structures interact (or don't
+interact with each other. 
+
+Exactly five things happen in main():
+1) We initalise the CommandParser
+2) We figure out if it's supposed to be interactive or running a script
+3) We invoke either:
+		int execute_script(&parser, filename);
+	or:
+		int open_repl(&parser);
+4) execute_script() or open_repl() either return an error message or not.
+5) We free the parser and exit. 
