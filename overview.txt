@@ -15,8 +15,8 @@ PROPERTIES--
 +    history -- ideally, a [10][255] character array containing last 10 inputs
 +    command_table -- a hash table used to 'direct traffic' based on first token
 METHODS (i.e. special functions used to build, change or maniplate the CP)--
-+    int create_parser(**self) -- the first thing we invoke in main
-+    int move_line(**self, *new_input) -- take line from either scriptbuffer or REPL
++    void create_parser(**self) -- the first thing we invoke in main
++    void move_line(**self, *new_input) -- take line from either scriptbuffer or REPL
 +    void (*find_command)(**self) -- attempt to match first token to list of commands
 +    void free_parser(**self) -- deallocate memory the parser was using
 

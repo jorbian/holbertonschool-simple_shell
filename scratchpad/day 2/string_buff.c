@@ -47,7 +47,7 @@ StringBuffer_t *add_to_end(StringBuffer_t **top_node, const char *new_str)
  *
  * Return: pointer to the new node in the list.
 */
-StringBuffer_t *add_string(StringBuffer_t **top_node, const char *new_str)
+StringBuffer_t *add(StringBuffer_t **top_node, const char *new_str)
 {
 	char *staging_buff;
 	StringBuffer_t *new_buffer_node;
@@ -75,14 +75,14 @@ StringBuffer_t *add_string(StringBuffer_t **top_node, const char *new_str)
 * check_stringbuff - Prints all strings left in buffer
 * @current_node: the current_node of the list
 */
-void check_stringbuff(const StringBuffer_t *current_node)
+void check(const StringBuffer_t *current_node)
 {
 	size_t nodes = 0;
 
 	while (current_node)
 	{
+		printf("INDEX[%lu]: %s\x0a", nodes, current_node->contents);
 		nodes++;
-		printf("INDEX[%zu]: %s\x0a", nodes, current_node->contents);
 		current_node = current_node->next;
 	}
 }
@@ -104,18 +104,42 @@ void free_stringbuff(StringBuffer_t *current_node)
 
 /**
  * get_index - Locates a node in a StringBuffer_t.
- * @head: The head of the StringBuffer_t list.
+ * @top_node: The top_node of the StringBuffer_t list.
  * @index: The node to locate.
  *
  * Return: The address of the located node (or NULL if it didn't exist)
  */
-StringBuffer_t *get_index(StringBuffer_t *head, unsigned int index)
+StringBuffer_t *get_index(StringBuffer_t *top_node, unsigned int index)
 {
 	for (; index != 0; index--)
 	{
-		if (head == NULL)
+		if (top_node == NULL)
 			return (NULL);
-		head = head->next;
+		top_node = top_node->next;
 	}
-	return (head);
+	return (top_node);
+}
+
+/**
+ * pop - Deletes the top node of string buffer
+ * @top_node: A pointer to the address of buffer
+ *
+ * Return: If the linked list is empty - 0.
+ *         Otherwise - The top_node node's data (n).
+ */
+char *pop(StringBuffer_t **top_node)
+{
+	StringBuffer_t *buff_node;
+	char *return_string;
+
+	if (*top_node == NULL)
+		return (NULL);
+
+	buff_node = *top_node;
+	return_string = (*top_node)->contents;
+	*top_node = (*top_node)->next;
+
+	free(buff_node);
+
+	return (return_string);
 }
