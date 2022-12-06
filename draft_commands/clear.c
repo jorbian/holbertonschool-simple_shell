@@ -12,4 +12,7 @@
 void clear_screen(CommandParser_t **parser)
 {
     printf("\e[1;1H\e[2J");
+    // printf("\033[2J\033[1;1H");
+    // printf("\x1b[2J\x1b[1;1H");
+    // these should both work if that one does not.
 }
