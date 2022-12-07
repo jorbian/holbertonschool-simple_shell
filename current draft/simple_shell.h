@@ -69,4 +69,6 @@ int contains_slash(char *command);
 char *find_local_path(char *string);
 char *expand_path(char *string);
 
+void errors(char *token, char *argument);
+
 #endif

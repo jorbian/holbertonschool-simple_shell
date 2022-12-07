@@ -10,6 +10,7 @@ int main()
 	parse_line(&shell, "ls");
 
 	free_shell(&shell);
+	return (0);
 }
 
 /**
