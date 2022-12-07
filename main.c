@@ -1,29 +1,65 @@
 #include "simple_shell.h"
 
-int main(int argc, char *argv[])
+/**
+ * main - entry pointer for program
+ * @argc: number of arguments passed to program.
+ * @argv: what arguments there were, if any.
+ * @envp: complete list of enviornmental variables.
+ * 
+ * Return: EXIT_SUCCESS (0) or EXIT_FAILURE (1)
+ */
+int main(
+	__attribute__ ((unused)) int argc,
+	__attribute__ ((unused)) char *argv[],
+	char **envp
+)
 {
-    SimpleShell_t *shell;
-    UserInterface_t *repl;
-    ScriptReader_t *script;
+	SimpleShell_t *shell = NULL;
+	int exit_status = 0;
+	int is_interactive = isatty(STDIN_FILENO);
 
-    int is_interactive = FALSE;
-    int exit_status = EXIT_SUCCESS;
+	create_shell(&shell, envp);
 
-    create_simple_shell(&shell);
+	if (is_interactive)
+		launch_repl(&shell);
+	else
+		read_script(&shell);
 
-    is_interactive = isatty(STDIN_FILENO);
+	exit_status = shell->exit_status;
 
-    if (is_interactive)
-    {
-        create_user_interface(&repl);
-        exit_status = open_repl(&repl);
-    }
-    else
-    {  
-        create_script_reader(&script);
-        exit_status = interpret_script(&script);
-    }
-    free_simple_shell(&shell);
+	free_shell(&shell);
 
-    return (exit_status);
+	return (exit_status);
+}
+/**
+ * launch_repl - open a READ-EVALUATE-PRINT-LOOP with interpreter
+ * @shell: double pointer back to the interpreter
+ * 
+ * Return: void (for now)
+ */
+void launch_repl(SimpleShell_t **shell)
+{
+	(void)shell;
+
+	printf("WE'RE NOT WORRIED ABOUT THIS FOR NOW\n");
+}
+
+/**
+ * read_script - read a script as piped in from stdin
+ * @shell: douple pointer back to the interprert
+ * @source: file pointer from where we want to read (stdin)
+ * 
+ * Return: void.
+ */
+void read_script(SimpleShell_t **shell)
+{
+	char *current_line;
+
+	while ((current_line = take_input()))
+	{
+		((*shell)->line_num)++;
+		parse_line(shell, current_line);
+		free(current_line);
+		fflush(NULL);
+	}
 }

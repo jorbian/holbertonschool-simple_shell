@@ -12,6 +12,9 @@ char *find_command_path(SimpleShell_t **self)
 	char *command_path;
 	int i = 0;
 
+	if (stat((*self)->command_args[0], &file_info) == 0)
+			return ((*self)->command_args[0]);
+
 	while ((*self)->path_variable[i])
 	{
 		command_path = create_test_path(
