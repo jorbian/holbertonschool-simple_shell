@@ -64,10 +64,8 @@ void clear_screen(SimpleShell_t **self);
 void quit_repl(SimpleShell_t **self);
 void print_env_variables(SimpleShell_t **self);
 
-int validate_command(SimpleShell_t **self);
-int contains_slash(char *command);
-char *find_local_path(char *string);
-char *expand_path(char *string);
+char *find_command_path(SimpleShell_t **self);
+char *create_test_path(char *dir_path, char *command);
 
 void errors(char *token, char *argument);
 
