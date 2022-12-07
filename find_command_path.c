@@ -10,7 +10,7 @@ char *find_command_path(SimpleShell_t **shell)
 {
 	struct stat file_info;
 	char *command_path;
-	int i = 0, already_valid_path;
+	int i = 0;
 
 	command_path = (*shell)->command_args[0];
 
@@ -20,10 +20,9 @@ char *find_command_path(SimpleShell_t **shell)
 			return (command_path);
 
 		command_path = create_test_path(
-			(*shell)->path_variable[i],
+			(*shell)->path_variable[i++],
 			(*shell)->command_args[0]
 		);
-		i++;
 	}
 	return (NULL);
 }
