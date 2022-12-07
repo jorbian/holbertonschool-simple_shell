@@ -5,7 +5,7 @@
  * @argc: number of arguments passed to program.
  * @argv: what arguments there were, if any.
  * @envp: complete list of enviornmental variables.
- * 
+ *
  * Return: EXIT_SUCCESS (0) or EXIT_FAILURE (1)
  */
 int main(
@@ -34,7 +34,7 @@ int main(
 /**
  * launch_repl - open a READ-EVALUATE-PRINT-LOOP with interpreter
  * @shell: double pointer back to the interpreter
- * 
+ *
  * Return: void (for now)
  */
 void launch_repl(SimpleShell_t **shell)
@@ -47,8 +47,7 @@ void launch_repl(SimpleShell_t **shell)
 /**
  * read_script - read a script as piped in from stdin
  * @shell: douple pointer back to the interprert
- * @source: file pointer from where we want to read (stdin)
- * 
+ *
  * Return: void.
  */
 void read_script(SimpleShell_t **shell)
