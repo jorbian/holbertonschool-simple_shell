@@ -39,9 +39,16 @@ int main(
  */
 void launch_repl(SimpleShell_t **shell)
 {
-	(void)shell;
+	char *line = NULL;
 
-	printf("WE'RE NOT WORRIED ABOUT THIS FOR NOW\n");
+	while ((*shell)->is_active == TRUE)
+	{
+		printf("($) ");
+		line = take_input();
+		parse_line(shell, line);
+		free(line);
+		fflush(NULL);
+	}
 }
 
 /**
