@@ -42,9 +42,9 @@ void clear_screen(SimpleShell_t **self)
  * @self: double pointer back to shell interpreter
  * Description: PLACEHOLDER
  */
-void quit_repl(SimpleShell_t **self)
+void quit_repl(SimpleShell_t **shell)
 {
-    ((*self)->is_active) = FALSE;
+    ((*shell)->is_active) = FALSE;
 }
 
 /**
@@ -52,7 +52,7 @@ void quit_repl(SimpleShell_t **self)
  * @self: double pointer back to shell interpreter
  * Description: PLACEHOLDER
  */
-void print_env_variables(SimpleShell_t **self)
+void print_env_variables(SimpleShell_t **shell)
 {
-    (void)self;
+    (void)shell;
 }
