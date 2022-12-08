@@ -6,12 +6,11 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 
 #define TRUE 1
 #define FALSE 0
 
-#define NAME_BUFF_SIZE 127
-#define WORKING_DIR_BUFF 255
 #define PATH_MAX 4096
 
 /**
@@ -26,8 +25,7 @@
  * @os_command_path: path to executable file to invoke (if any)
  * @command_args: arguments parsed from last line of input
  *
- * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO
+ * Description: Parameters defining the core interpreter.
  */
 typedef struct _SimpleShell
 {
@@ -60,7 +58,7 @@ int create_shell(SimpleShell_t **self, char **envp);
 void parse_line(SimpleShell_t **self, char *new_line);
 void free_shell(SimpleShell_t **self);
 
-char *take_input(void);
+char *take_input();
 int is_only_spaces(char *string);
 int num_of_spaces(char *string, char *delimiter);
 char **split_string(char *string_to_split, char *delimiter);

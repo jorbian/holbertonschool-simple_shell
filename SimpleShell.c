@@ -24,7 +24,6 @@ int create_shell(SimpleShell_t **shell, char **envp)
 	);
 	(*shell)->os_command_path = NULL;
 	(*shell)->builtin = NULL;
-	(*shell)->command_args = NULL;
 
 	return (EXIT_SUCCESS);
 }
@@ -52,6 +51,8 @@ void parse_line(SimpleShell_t **shell, char *new_line)
 
 	if ((*shell)->os_command_path != NULL)
 		create_new_process(shell);
+
+	free_array((*shell)->command_args);
 }
 
 /**
@@ -60,8 +61,8 @@ void parse_line(SimpleShell_t **shell, char *new_line)
  */
 void free_shell(SimpleShell_t **shell)
 {
-	free((*shell)->path_variable);
-	free((*shell)->command_args);
+	free_array((*shell)->path_variable);
+	free_array((*shell)->command_args);
 	free(*shell);
 }
 

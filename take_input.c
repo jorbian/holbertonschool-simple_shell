@@ -4,7 +4,7 @@
  * take_input - Receives input and makes it safe to process
  * Return: Parsed input from the user
  */
-char *take_input(void)
+char *take_input()
 {
 	char *buffer;
 	size_t n = 1;
@@ -66,7 +66,7 @@ char **split_string(char *string_to_split, char *delimiter)
 	char *grabtok;
 
 	copy_of_string = strdup(string_to_split);
-	ret_array = malloc(sizeof(char *) * (length + 1));
+	ret_array = malloc(sizeof(char *) * (length + 2));
 
 	if (length > 1)
 	{
@@ -102,7 +102,6 @@ char **split_string(char *string_to_split, char *delimiter)
  * @delimiter: The string that is breaking up str
  * Return: The number of spaces to store the data, trailing NULL excluded
  */
-
 int num_of_spaces(char *string, char *delimiter)
 {
 	int i = 0;
@@ -128,4 +127,17 @@ int num_of_spaces(char *string, char *delimiter)
 		i++;
 	}
 	return (count);
+}
+
+/**
+ * free_array - deallocates memory allocated through split_string function
+ * @an_array: the array that needs to be deallocated.
+*/
+void free_array(char **an_array)
+{
+	int i;
+
+	for (i = 0; an_array[i]; i++)
+		free(an_array[i]);
+	free(an_array);
 }

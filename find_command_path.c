@@ -24,6 +24,8 @@ char *find_command_path(SimpleShell_t **shell)
 			(*shell)->command_args[0]
 		);
 	}
+	free(command_path);
+
 	return (NULL);
 }
 
@@ -31,6 +33,7 @@ char *find_command_path(SimpleShell_t **shell)
  * create_test_path - Concatenate command argv[0] to each directory path
  * @dir_path: pointer a one dir PATH
  * @command: command
+ * 
  * Return: pointer string dir + cmd or NULL error
  */
 char *create_test_path(char *dir_path, char *command)
