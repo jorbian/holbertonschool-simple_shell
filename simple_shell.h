@@ -58,7 +58,7 @@ int create_shell(SimpleShell_t **self, char **envp);
 void parse_line(SimpleShell_t **self, char *new_line);
 void free_shell(SimpleShell_t **self);
 
-char *take_input(void);
+char *take_input();
 int is_only_spaces(char *string);
 int num_of_spaces(char *string, char *delimiter);
 char **split_string(char *string_to_split, char *delimiter);
