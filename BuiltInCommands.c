@@ -10,8 +10,6 @@ void (*get_builtin(char *command))(SimpleShell_t **)
 {
 	int i;
 	BuiltInCommand_t builtins[] = {
-		{"clear", clear_screen},
-		{"cls", clear_screen},
 		{"exit", quit_repl},
 		{"quit", quit_repl},
 		{"env", print_env_variables},
@@ -25,17 +23,6 @@ void (*get_builtin(char *command))(SimpleShell_t **)
 	}
 	return (NULL);
 }
-
-/**
- * clear_screen - exactly what it says on the tin
- * @shell: double pointer back to shell interpreter
- */
-void clear_screen(SimpleShell_t **shell)
-{
-	(void)shell;
-	printf("WE WOULD CLEAR THE SCREEN IF WE COULD...\n");
-}
-
 /**
  * quit_repl - quit interactive mode
  * @shell: double pointer back to shell interpreter
