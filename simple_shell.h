@@ -57,6 +57,7 @@ void read_script(SimpleShell_t **shell);
 int create_shell(SimpleShell_t **self, char **envp);
 void parse_line(SimpleShell_t **self, char *new_line);
 void free_shell(SimpleShell_t **self);
+void free_array(char **an_array);
 
 char *take_input();
 int is_only_spaces(char *string);
