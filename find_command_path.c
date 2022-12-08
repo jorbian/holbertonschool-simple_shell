@@ -24,6 +24,8 @@ char *find_command_path(SimpleShell_t **shell)
 			(*shell)->command_args[0]
 		);
 	}
+	free(command_path);
+
 	return (NULL);
 }
 

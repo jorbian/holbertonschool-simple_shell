@@ -66,7 +66,7 @@ char **split_string(char *string_to_split, char *delimiter)
 	char *grabtok;
 
 	copy_of_string = strdup(string_to_split);
-	ret_array = malloc(sizeof(char *) * (length + 1));
+	ret_array = malloc(sizeof(char *) * (length + 2));
 
 	if (length > 1)
 	{

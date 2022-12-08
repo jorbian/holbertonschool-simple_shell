@@ -6,13 +6,11 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include<sys/wait.h>
+#include <sys/wait.h>
 
 #define TRUE 1
 #define FALSE 0
 
-#define NAME_BUFF_SIZE 127
-#define WORKING_DIR_BUFF 255
 #define PATH_MAX 4096
 
 /**
@@ -27,8 +25,7 @@
  * @os_command_path: path to executable file to invoke (if any)
  * @command_args: arguments parsed from last line of input
  *
- * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO
+ * Description: Parameters defining the core interpreter.
  */
 typedef struct _SimpleShell
 {
