@@ -6,6 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include<sys/wait.h>
 
 #define TRUE 1
 #define FALSE 0
