@@ -26,8 +26,6 @@ char *find_command_path(SimpleShell_t **shell)
 	}
 	free(command_path);
 
-	((*shell)->error_num) = 2;
-
 	return (NULL);
 }
 
@@ -48,7 +46,7 @@ char *create_test_path(char *dir_path, char *command)
 	command_len = strlen(command);
 	total_path_len = dir_path_len + command_len;
 
-	test_path = calloc(total_path_len + 2, sizeof(char));
+	test_path = malloc(sizeof(char) * (total_path_len + 2));
 	if (test_path == NULL)
 	{
 		write(1, "Error: malloc catpath\n", 22);
