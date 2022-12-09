@@ -52,8 +52,10 @@ void parse_line(SimpleShell_t **shell, char *new_line)
 	(*shell)->os_command_path = find_command_path(shell);
 
 	if ((*shell)->os_command_path != NULL)
+	{
 		create_new_process(shell);
-
+		free((*shell)->os_command_path);
+	}
 	free_array((*shell)->command_args);
 }
 
