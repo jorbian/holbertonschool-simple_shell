@@ -37,6 +37,8 @@ int create_shell(SimpleShell_t **shell, char **envp)
 */
 void parse_line(SimpleShell_t **shell, char *new_line)
 {
+	((*shell)->error_num) = 0;
+
 	(*shell)->command_args = split_string(new_line, " ");
 
 	(*shell)->builtin = get_builtin((*shell)->command_args[0]);

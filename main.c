@@ -43,7 +43,7 @@ void launch_repl(SimpleShell_t **shell)
 
 	while ((*shell)->is_active == TRUE)
 	{
-		printf("$ ");
+		printf("($) ");
 		line = take_input();
 		parse_line(shell, line);
 		free(line);
