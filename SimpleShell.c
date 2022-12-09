@@ -16,7 +16,7 @@ int create_shell(SimpleShell_t **shell, char **envp)
 	((*shell)->line_num) = 0;
 	((*shell)->exit_status) = 0;
 	((*shell)->is_active) = TRUE;
-	((*shell)->error_status) = FALSE;
+	((*shell)->error_num) = 0;
 	(*shell)->enviornment = envp;
 	(*shell)->path_variable = split_string(
 		_getenv(envp, "PATH"),

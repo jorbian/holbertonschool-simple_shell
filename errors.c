@@ -1,25 +1,28 @@
 #include "simple_shell.h"
-/**
- * errors - prints error messages
- * @token: command that failed
- * @argument: error of command
- * Return: void
-*/
-void errors(char *token, char *argument __attribute__((unused)))
+
+void throw_error(SimpleShell_t **shell)
 {
-	char *message = "command not found";
-	char *st = NULL;
-	int i;
+    char specific_error[20];
+    char error_message[255];
 
-	st = calloc(200, sizeof(char));
+    if ((*shell)->error_num == 1)
+        snprintf(specific_error, 20, "%s", "Permission denied\n");
+    else if ((*shell)->error_num == 2)
+        snprintf(specific_error, 20, "%s", "not found\n");
+    else if ((*shell)->error_num == 3)
+        snprintf(specific_error, 20, "%s", "Can't open\n");
+    else
+        snprintf(specific_error, 20, "%s", "Unknown Error\n");
 
-	strcat(st, token);
-	strcat(st, ": ");
-	strcat(st, message);
-	strcat(st, "\n");
+    snprintf(
+        error_message,
+        255,
+        "%s: %d: %s: %s",
+        _getenv((*shell)->enviornment, "_"),
+        (*shell)->line_num,
+        (*shell)->command_args[0],
+        specific_error
+    );
 
-	for (i = 0; st[i] != '\0'; i++)
-		;
-	write(STDERR_FILENO, &st[i], 1);
-	free(st);
+    fprintf(stderr, "%s", error_message);
 }
