@@ -31,7 +31,7 @@ typedef struct _SimpleShell
 {
 	int line_num;
 	int exit_status;
-	int error_status;
+	int error_num;
 	int is_active;
 	char **path_variable;
 	char **enviornment;
@@ -74,6 +74,6 @@ char *find_command_path(SimpleShell_t **self);
 char *create_test_path(char *dir_path, char *command);
 void create_new_process(SimpleShell_t **shell);
 
-void errors(char *token, char *argument);
+void throw_error(SimpleShell_t **shell);
 
 #endif

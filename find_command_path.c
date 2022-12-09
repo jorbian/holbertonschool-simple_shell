@@ -26,6 +26,8 @@ char *find_command_path(SimpleShell_t **shell)
 	}
 	free(command_path);
 
+	((*shell)->error_num) = 2;
+
 	return (NULL);
 }
 
