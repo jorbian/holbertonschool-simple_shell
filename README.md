@@ -15,52 +15,52 @@ $./hsh
 ```
 After you have entered into the hsh prompt you can enter commands such as ls to make a list of files and display them:
 ```
-($)ls
-Hello_World.c
-README.md
-simple_shell.h
-hsh
-etc...
+($)_ls
+Hello_World.c README.md simple_shell.h hsh etc...
+($)_
+($)_echo chicken nuggets
+chicken nuggets
 ($)_
 ```
+>"_" is a representation of the built in space in the above example
 ## Description
 
 #### Syntax
 ```
-($)[program/command name] [options]
+($)[program/command name] [options] [argumemts]
 ```
 When you run the `simple_shell` / `hsh` is run, a command line is written just as any other line interpreter.
-`hsh` will attempt to execute the program name (searching into the PATH environment variable) with the given arguments specified by [options] you give it. There is a 100 character limit per line, including the new line character. All tab characters that are found should be ignored/removed in the code.
+`hsh` will attempt to execute the program name (searching into the PATH environment variable) with the given arguments specified by [options] you give it. There is a 100* character limit per line, including the new line character. All tab characters that are found should be ignored/removed in the code.
+>*this could be wrong
 
-
-## Files
+## Files For hsh
 
 The files needed for `hsh` to function correctly and their description below.
 
 | File  | Description |
 | ------------- |:-------------:|
 | simple_shell.h      | This is the primary .h file containing most if not all prototypes and structs + more     |
-| main.c      | This will of course be the main file that lets everything connect together and run     |
-| SimpleShell.c      | This will house all the functions related to interpreting commands     |
-| UserInterface.c      | This is the main component to making and using the UI     |
-| ScriptReader.c      | This reads the scripts and makes sure to check for errors     |
-| left baz      | right baz     |
-| left foo      | right foo     |
-| left bar      | right bar     |
-| left baz      | right baz     |
+| main.c      | This summons the different main functions together to make the shell     |
+| SimpleShell.c      | This is the bulk of the shell, gets the pid, env, and parser.      |
+| take_input.c      | This is an important component in actually using the shell as the name implies     |
+| find_command_path.c      | This function finds command path/creates it     |
+| errors.c      | This is what houses our main error checking function(s) and allows them to be displayed    |
 
 
 
-## Low or High Level Description //placeholdernameidk
 
-### Main.c:
-1. Initialize the CommandParser
-2. Assess if hsh will be interactive or running a script
-3. Invoke either:
-    1. int execute_script(&parser, filename);
-    2. int open_repl(&parser);
-4. For either: return an error message or not.
-5. Free the parser and exit.
+## Process Walkthrough
+
+### hsh:
+1. Initialize: create_shell, assess if hsh will be interactive or running a script.
+2. Invoke either:
+    1. launch_repl if interactive mode
+    2. read_script if not interactive
+3. Once in interactive mode or not, parse_line will activate and access builtins and more.
+4. parse_line calls on find_command_path to setup os_command_path to then pass to
+5. create_new_process (self explanatory) but this takes the os*cp* command_args and env together
+6. command_args uses take_input.c to do various things like splitting strings, making token buffers, and handling spaces and more.
+7. Now of course once that is all done and you exit the program the memory will(should) be free'd up.
 
 ## Allowed Functions List:
 * `access` (man 2 access)
@@ -99,20 +99,8 @@ The files needed for `hsh` to function correctly and their description below.
 
 ## Links
 
-You may be using [Markdown Live Preview](https://markdownlivepreview.com/).
+https://github.com/jorbian/holbertonschool-simple_shell
+> you should already be here if you are viewing this
 
-## Blockquotes
-
-> Markdown is a lightweight markup language with plain-text-formatting syntax, created in 2004 by John Gruber with Aaron Swartz.
->
->> Markdown is often used to format readme files, for writing messages in online discussion forums, and to create rich text using a plain text editor.
-
-## Formatting
-
-| Left columns  | Right columns |
-| ------------- |:-------------:|
-| left foo      | right foo     |
-| left bar      | right bar     |
-| left baz      | right baz     |
 
 # End of README.md
