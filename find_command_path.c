@@ -33,7 +33,7 @@ char *find_command_path(SimpleShell_t **shell)
  * create_test_path - Concatenate command argv[0] to each directory path
  * @dir_path: pointer a one dir PATH
  * @command: command
- * 
+ *
  * Return: pointer string dir + cmd or NULL error
  */
 char *create_test_path(char *dir_path, char *command)
@@ -46,7 +46,7 @@ char *create_test_path(char *dir_path, char *command)
 	command_len = strlen(command);
 	total_path_len = dir_path_len + command_len;
 
-	test_path = malloc(sizeof(char) * (total_path_len + 2));
+	test_path = calloc(total_path_len + 2, sizeof(char));
 	if (test_path == NULL)
 	{
 		write(1, "Error: malloc catpath\n", 22);
@@ -65,4 +65,65 @@ char *create_test_path(char *dir_path, char *command)
 	test_path[i] = '\0';
 
 	return (test_path);
+}
+
+/**
+ * create_new_process - Forks a child process that is possessed by our argv
+ * @shell: double-pointer back to the interpreter
+ *
+ * Return: void
+ */
+void create_new_process(SimpleShell_t **shell)
+{
+	pid_t id;
+	int status;
+
+	id = fork();
+	if (id == -1)
+		perror("Fork failed");
+	else if (id > 0)
+		wait(&status);
+	else if (id == 0)
+		execve(
+			(*shell)->os_command_path,
+			(*shell)->command_args,
+			(*shell)->enviornment
+		);
+	if ((WIFEXITED(status)))
+		((*shell)->exit_status) = WEXITSTATUS(status);
+	if (id != 0)
+	{
+		fflush(stdout);
+		fflush(stdin);
+	}
+}
+/**
+ * throw_error - dispaly an error message by designated number
+ * @shell: double-pointer back to the interpreter (includes error num)
+ */
+void throw_error(SimpleShell_t **shell, int error_num)
+{
+	char specific_error[20];
+	char error_message[255];
+
+	if (error_num == 1)
+		snprintf(specific_error, 20, "%s", "Permission denied\n");
+	else if (error_num == 2)
+		snprintf(specific_error, 20, "%s", "not found\n");
+	else if (error_num == 3)
+		snprintf(specific_error, 20, "%s", "Can't open\n");
+	else
+		snprintf(specific_error, 20, "%s", "Unknown Error\n");
+
+	snprintf(
+		error_message,
+		255,
+		"%s: %d: %s: %s",
+		getenv("_"),
+		(*shell)->line_num,
+		(*shell)->command_args[0],
+		specific_error
+	);
+
+	fprintf(stderr, "%s", error_message);
 }

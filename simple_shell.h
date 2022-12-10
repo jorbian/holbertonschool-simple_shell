@@ -17,7 +17,7 @@
  * struct _SimpleShell - information representing current state of shell
  * @line_num: current line number of script
  * @exit_status: EXIT_SUCCESS (0) or EXIT_FAILURE (!)
- * @error_status: TRUE (1) OR FALSE (0) -- may or may not trigger exit
+ * @error_num: placeholder
  * @is_active: TRUE (1) OR FALSE (0) -- if REPL loop still open
  * @path_variable: path variable inherited from environment as string array
  * @enviornment: the enviornmental variables.
@@ -31,7 +31,6 @@ typedef struct _SimpleShell
 {
 	int line_num;
 	int exit_status;
-	int error_num;
 	int is_active;
 	char **path_variable;
 	char **enviornment;
@@ -54,7 +53,7 @@ typedef struct BuiltInCommand_s
 void launch_repl(SimpleShell_t **shell);
 void read_script(SimpleShell_t **shell);
 
-int create_shell(SimpleShell_t **self, char **envp);
+void create_shell(SimpleShell_t **self, char **envp);
 void parse_line(SimpleShell_t **self, char *new_line);
 void free_shell(SimpleShell_t **self);
 void free_array(char **an_array);
@@ -74,6 +73,6 @@ char *find_command_path(SimpleShell_t **self);
 char *create_test_path(char *dir_path, char *command);
 void create_new_process(SimpleShell_t **shell);
 
-void throw_error(SimpleShell_t **shell);
+void throw_error(SimpleShell_t **shell, int error_num);
 
 #endif

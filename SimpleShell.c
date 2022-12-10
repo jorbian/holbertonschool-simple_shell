@@ -7,25 +7,19 @@
  *
  * Return: Whether or not the shell was sucessfully created.
  */
-int create_shell(SimpleShell_t **shell, char **envp)
+void create_shell(SimpleShell_t **shell, char **envp)
 {
 	*shell = malloc(sizeof(SimpleShell_t));
 	if (shell == NULL)
-		return (EXIT_FAILURE);
+		return;
 
 	((*shell)->line_num) = 0;
 	((*shell)->exit_status) = 0;
 	((*shell)->is_active) = TRUE;
-	((*shell)->error_num) = 0;
 	(*shell)->enviornment = envp;
-	(*shell)->path_variable = split_string(
-		_getenv(envp, "PATH"),
-		":"
-	);
+	(*shell)->path_variable = split_string(getenv("PATH"), ":");
 	(*shell)->os_command_path = NULL;
 	(*shell)->builtin = NULL;
-
-	return (EXIT_SUCCESS);
 }
 
 /**
@@ -37,28 +31,19 @@ int create_shell(SimpleShell_t **shell, char **envp)
 */
 void parse_line(SimpleShell_t **shell, char *new_line)
 {
-	((*shell)->error_num) = 0;
-
 	(*shell)->command_args = split_string(new_line, " ");
 
 	(*shell)->builtin = get_builtin((*shell)->command_args[0]);
 
-	if ((*shell)->builtin != NULL)
-	{
-		(*shell)->builtin(shell);
-		return;
-	}
-
 	(*shell)->os_command_path = find_command_path(shell);
 
-	if ((*shell)->os_command_path != NULL)
-	{
+	if ((*shell)->builtin != NULL)
+		(*shell)->builtin(shell);
+	else if ((*shell)->os_command_path != NULL)
 		create_new_process(shell);
-		free((*shell)->os_command_path);
-	}
-	free_array((*shell)->command_args);
+	else
+		throw_error(shell, 2);
 }
-
 /**
  * free_shell - deallocates memory for the interpreter and its properties
  * @shell: double pointer back to the simple shell
@@ -66,70 +51,46 @@ void parse_line(SimpleShell_t **shell, char *new_line)
 void free_shell(SimpleShell_t **shell)
 {
 	free_array((*shell)->path_variable);
-	free_array((*shell)->command_args);
+
+	if ((*shell)->command_args)
+		free_array((*shell)->command_args);
+
 	free(*shell);
 }
 
 /**
- * create_new_process - Forks a child process that is possessed by our argv
- * @shell: double-pointer back to the interpreter
- *
- * Return: void
- */
-void create_new_process(SimpleShell_t **shell)
+ * free_array - deallocates memory allocated through split_string function
+ * @an_array: the array that needs to be deallocated.
+*/
+void free_array(char **an_array)
 {
-	pid_t id;
-	int status;
+	int i;
 
-	id = fork();
-	if (id == -1)
-		perror("Fork failed");
-	else if (id > 0)
-		wait(&status);
-	else if (id == 0)
-		execve(
-			(*shell)->os_command_path,
-			(*shell)->command_args,
-			(*shell)->enviornment
-		);
-	if ((WIFEXITED(status)))
-		((*shell)->exit_status) = WEXITSTATUS(status);
-	if (id != 0)
-	{
-		fflush(stdout);
-		fflush(stdin);
-	}
+	for (i = 0; an_array[i]; i++)
+		free(an_array[i]);
+	free(an_array);
 }
 
 /**
- * _getenv - Custom getenv function
- * @envp: the enviornmental variable array
- * @key: specific key (such as 'PATH') that we're looking for
+ * get_builtin - runs through and tries to find built-in commands
+ * @command: the command we're looking for as a string
  *
- * Return: The value of the environment variable
- */
-char *_getenv(char **envp, char *key)
+ * Return: funciton pointer to back to command to execute
+*/
+void (*get_builtin(char *command))(SimpleShell_t **)
 {
-	int i = 0;
-	int j = 0;
-	char *retval;
-	char copyenv[PATH_MAX];
+	int i;
+	BuiltInCommand_t builtins[] = {
+		{"exit", quit_repl},
+		{"quit", quit_repl},
+		{"env", print_env_variables},
+		{NULL, NULL}
+	};
 
-	while (envp[i])
+	for (i = 0; builtins[i].name; i++)
 	{
-		j = 0;
-		strcpy(copyenv, envp[i]);
-		while (copyenv[j] != '\0' && copyenv[j] != '=')
-			j++;
-
-		copyenv[j] = '\0';
-		j++;
-		if (strcmp(copyenv, key) == 0)
-		{
-			retval = &envp[i][j];
-			return (retval);
-		}
-		i++;
+		if (strcmp(command, builtins[i].name) == 0)
+			return (builtins[i].exec);
 	}
 	return (NULL);
 }

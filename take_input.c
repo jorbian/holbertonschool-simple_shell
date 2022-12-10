@@ -106,7 +106,7 @@ int num_of_spaces(char *string, char *delimiter)
 {
 	int i = 0;
 	int count = 1;
-	int gotspace = TRUE;
+	int has_space = TRUE;
 	char delim = delimiter[0];
 
 	if (string[i] == '\0' || string == NULL)
@@ -116,28 +116,15 @@ int num_of_spaces(char *string, char *delimiter)
 	{
 		if (string[i] == delim)
 		{
-			if (gotspace == 0)
+			if (has_space == 0)
 			{
 				count++;
-				gotspace = TRUE;
+				has_space = TRUE;
 			}
 		}
 		else
-			gotspace = FALSE;
+			has_space = FALSE;
 		i++;
 	}
 	return (count);
-}
-
-/**
- * free_array - deallocates memory allocated through split_string function
- * @an_array: the array that needs to be deallocated.
-*/
-void free_array(char **an_array)
-{
-	int i;
-
-	for (i = 0; an_array[i]; i++)
-		free(an_array[i]);
-	free(an_array);
 }

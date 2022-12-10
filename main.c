@@ -61,6 +61,7 @@ void read_script(SimpleShell_t **shell)
 {
 	char *current_line;
 
+	printf("$ ");
 	while ((current_line = take_input()))
 	{
 		((*shell)->line_num)++;
