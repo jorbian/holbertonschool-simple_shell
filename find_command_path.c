@@ -46,12 +46,8 @@ char *create_test_path(char *dir_path, char *command)
 	command_len = strlen(command);
 	total_path_len = dir_path_len + command_len;
 
-	test_path = calloc(total_path_len + 2, sizeof(char));
-	if (test_path == NULL)
-	{
-		write(1, "Error: malloc catpath\n", 22);
-		return (NULL);
-	}
+	test_path = malloc(sizeof(char) * total_path_len + 2);
+
 	while (dir_path[i])
 	{
 		test_path[i] = dir_path[i];
@@ -96,6 +92,7 @@ void create_new_process(SimpleShell_t **shell)
 		fflush(stdout);
 		fflush(stdin);
 	}
+	free((*shell)->os_command_path);
 }
 /**
  * throw_error - dispaly an error message by designated number
