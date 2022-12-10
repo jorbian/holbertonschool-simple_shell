@@ -66,12 +66,13 @@ char **split_string(char *string_to_split, char *delimiter)
 	char *grabtok;
 
 	copy_of_string = strdup(string_to_split);
-	ret_array = malloc(sizeof(char *) * (length + 2));
+	ret_array = malloc(sizeof(char *) * (length + 1));
 
 	if (length > 1)
 	{
 		token_buffer = strdup(strtok(copy_of_string, delimiter));
 		ret_array[i] = token_buffer;
+
 		while (token_buffer != NULL)
 		{
 			i++;
@@ -81,15 +82,12 @@ char **split_string(char *string_to_split, char *delimiter)
 				ret_array[i] = NULL;
 				break;
 			}
-		token_buffer = strdup(grabtok);
-		ret_array[i] = token_buffer;
+			token_buffer = strdup(grabtok);
+			ret_array[i] = token_buffer;
 		}
 	}
 	else
-	{
 		ret_array[i] = strdup(copy_of_string);
-	}
-	ret_array[i + 1] = NULL;
 
 	free(copy_of_string);
 
