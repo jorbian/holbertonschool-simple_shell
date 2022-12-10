@@ -62,35 +62,18 @@ char **split_string(char *string_to_split, char *delimiter)
 	int i = 0;
 	long int length = num_of_spaces(string_to_split, delimiter);
 	char *token_buffer;
-	char *copy_of_string;
-	char *grabtok;
 
-	copy_of_string = strdup(string_to_split);
 	ret_array = malloc(sizeof(char *) * (length + 1));
+	
+	token_buffer = strtok(string_to_split, delimiter);
+	ret_array[i] = token_buffer;
 
-	if (length > 1)
+	while (token_buffer != NULL)
 	{
-		token_buffer = strdup(strtok(copy_of_string, delimiter));
+		i++;
+		token_buffer = strtok(NULL, delimiter);
 		ret_array[i] = token_buffer;
-
-		while (token_buffer != NULL)
-		{
-			i++;
-			grabtok = strtok(NULL, delimiter);
-			if (grabtok == NULL)
-			{
-				ret_array[i] = NULL;
-				break;
-			}
-			token_buffer = strdup(grabtok);
-			ret_array[i] = token_buffer;
-		}
 	}
-	else
-		ret_array[i] = strdup(copy_of_string);
-
-	free(copy_of_string);
-
 	return (ret_array);
 }
 /**
