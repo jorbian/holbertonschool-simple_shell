@@ -92,6 +92,7 @@ void create_new_process(SimpleShell_t **shell)
 		fflush(stdout);
 		fflush(stdin);
 	}
+	free((*shell)->os_command_path);
 }
 /**
  * throw_error - dispaly an error message by designated number
