@@ -43,6 +43,8 @@ void parse_line(SimpleShell_t **shell, char *new_line)
 		create_new_process(shell);
 	else
 		throw_error(shell, 2);
+
+	free((*shell)->os_command_path);
 }
 /**
  * free_shell - deallocates memory for the interpreter and its properties
