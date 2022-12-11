@@ -4,25 +4,24 @@
 I will try and give a decent explanation/overview of our project for you all to enjoy.
 
 ## How to use the Simple Shell
-You must first compile all the .c files in the repository. Then execute the resulting file.
+You must first compile all the .c files in the repository to produce an executable using this code:
 ```
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 $filename -o hsh
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 ```
-When the hsh executable is run, the hsh prompt will be shown. It should look like this
+Then run the executable (shown on the first line of the example) to get into the custom shell:
 ```
 $./hsh
 ($)_ /* You can type commands here */
 ```
 After you have entered into the hsh prompt you can enter commands such as ls to make a list of files and display them:
 ```
-($)_ls
+($) ls
 Hello_World.c README.md simple_shell.h hsh etc...
-($)_
-($)_echo chicken nuggets
+($) 
+($) echo chicken nuggets
 chicken nuggets
-($)_
+($) 
 ```
->"_" is a representation of the built in space in the above example
 ## Description
 
 #### Syntax
