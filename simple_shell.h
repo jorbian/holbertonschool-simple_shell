@@ -32,6 +32,7 @@ typedef struct _SimpleShell
 	int line_num;
 	int exit_status;
 	int is_active;
+	int error_num;
 	char **path_variable;
 	char **enviornment;
 	void (*builtin)(struct _SimpleShell **);
