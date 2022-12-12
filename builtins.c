@@ -18,6 +18,7 @@ void quit_repl(SimpleShell_t *shell)
 void print_env_variables(SimpleShell_t *shell)
 {
 	int i = 0;
+
 	do {
 		printf("%s\n", shell->enviornment[i++]);
 	} while (shell->enviornment[i]);

@@ -17,7 +17,6 @@
  * struct _SimpleShell - information representing current state of shell
  * @line_num: current line number of script
  * @exit_status: EXIT_SUCCESS (0) or EXIT_FAILURE (!)
- * @error_num: placeholder
  * @is_active: TRUE (1) OR FALSE (0) -- if REPL loop still open
  * @path_variable: path variable inherited from environment as string array
  * @enviornment: the enviornmental variables.
