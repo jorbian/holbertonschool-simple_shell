@@ -68,6 +68,7 @@ void free_array(char **an_array)
 
 	for (i = 0; an_array[i]; i++)
 		free(an_array[i]);
+
 	free(an_array);
 }
 

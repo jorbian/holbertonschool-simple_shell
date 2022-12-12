@@ -1,5 +1,6 @@
 #include "simple_shell.h"
 
+
 /**
  * main - entry pointer for program
  * @argc: number of arguments passed to program.
@@ -25,12 +26,11 @@ int main(
 	else
 		read_script(shell);
 
-	exit_status = shell->exit_status;
-
 	free_shell(shell);
 
 	return (exit_status);
 }
+
 /**
  * launch_repl - open a READ-EVALUATE-PRINT-LOOP with interpreter
  * @shell: double pointer back to the interpreter
@@ -51,6 +51,7 @@ void launch_repl(SimpleShell_t *shell)
 	}
 }
 
+
 /**
  * read_script - read a script as piped in from stdin
  * @shell: douple pointer back to the interprert
@@ -59,13 +60,19 @@ void launch_repl(SimpleShell_t *shell)
  */
 void read_script(SimpleShell_t *shell)
 {
-	char *current_line;
+	char *current_line = NULL;
 
-	while ((current_line = take_input()))
+	do 
 	{
-		(shell->line_num)++;
-		parse_line(shell, current_line);
+		current_line = take_input();
+
+		if (current_line != NULL)
+			parse_line(shell, current_line);
+		else
+			(shell->is_active) = FALSE;
+
 		free(current_line);
 		fflush(NULL);
-	}
+
+	} while (shell->is_active == TRUE);
 }

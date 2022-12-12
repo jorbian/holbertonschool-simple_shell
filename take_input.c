@@ -11,26 +11,26 @@ char *take_input()
 	ssize_t check;
 	char new_line[] = {'\n', '\0'};
 
-		buffer = malloc(sizeof(char) * 1);
+	buffer = malloc(sizeof(char) * 255);
 
-		check = (getline(&buffer, &n, stdin));
-		if (check == -1)
+	check = (getline(&buffer, &n, stdin));
+	if (check == -1)
+	{
+		free(buffer);
+		return (NULL);
+	}
+	if (buffer[0] == '\n' && buffer[1] == '\0')
+		;
+	else
+	{
+		buffer = strtok(buffer, new_line);
+		if ((is_only_spaces(buffer)))
 		{
-			free(buffer);
-			exit(0);
+			buffer[0] = '\n';
+			buffer[1] = '\0';
 		}
-		if (buffer[0] == '\n' && buffer[1] == '\0')
-			;
-		else
-		{
-			buffer = strtok(buffer, new_line);
-			if ((is_only_spaces(buffer)))
-			{
-				buffer[0] = '\n';
-				buffer[1] = '\0';
-			}
-		}
-		return (buffer);
+	}
+	return (buffer);
 }
 /**
  * is_only_spaces - Checks if a string contains only spaces
