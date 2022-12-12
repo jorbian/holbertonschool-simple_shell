@@ -70,3 +70,36 @@ void read_script(SimpleShell_t **shell)
 		fflush(NULL);
 	}
 }
+
+/**
+ * take_input - Receives input and makes it safe to process
+ * Return: Parsed input from the user
+ */
+char *take_input()
+{
+	char *buffer;
+	size_t n = 1;
+	ssize_t check;
+	char new_line[] = {'\n', '\0'};
+
+		buffer = malloc(sizeof(char) * 1);
+
+		check = (getline(&buffer, &n, stdin));
+		if (check == -1)
+		{
+			free(buffer);
+			exit(0);
+		}
+		if (buffer[0] == '\n' && buffer[1] == '\0')
+			;
+		else
+		{
+			buffer = strtok(buffer, new_line);
+			if ((is_only_spaces(buffer)))
+			{
+				buffer[0] = '\n';
+				buffer[1] = '\0';
+			}
+		}
+		return (buffer);
+}

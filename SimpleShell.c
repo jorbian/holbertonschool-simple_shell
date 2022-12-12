@@ -18,6 +18,7 @@ void create_shell(SimpleShell_t **shell, char **envp)
 	((*shell)->is_active) = TRUE;
 	(*shell)->enviornment = envp;
 	(*shell)->path_variable = split_string(getenv("PATH"), ":");
+	(*shell)->command_args = NULL;
 	(*shell)->os_command_path = NULL;
 	(*shell)->builtin = NULL;
 }
@@ -43,8 +44,6 @@ void parse_line(SimpleShell_t **shell, char *new_line)
 		create_new_process(shell);
 	else
 		throw_error(shell, 2);
-
-	free((*shell)->os_command_path);
 }
 /**
  * free_shell - deallocates memory for the interpreter and its properties
@@ -59,20 +58,6 @@ void free_shell(SimpleShell_t **shell)
 
 	free(*shell);
 }
-
-/**
- * free_array - deallocates memory allocated through split_string function
- * @an_array: the array that needs to be deallocated.
-*/
-void free_array(char **an_array)
-{
-	int i;
-
-	for (i = 0; an_array[i]; i++)
-		free(an_array[i]);
-	free(an_array);
-}
-
 /**
  * get_builtin - runs through and tries to find built-in commands
  * @command: the command we're looking for as a string
@@ -95,4 +80,35 @@ void (*get_builtin(char *command))(SimpleShell_t **)
 			return (builtins[i].exec);
 	}
 	return (NULL);
+}
+/**
+ * create_new_process - Forks a child process that is possessed by our argv
+ * @shell: double-pointer back to the interpreter
+ *
+ * Return: void
+ */
+void create_new_process(SimpleShell_t **shell)
+{
+	pid_t id;
+	int status;
+
+	id = fork();
+	if (id == -1)
+		perror("Fork failed");
+	else if (id > 0)
+		wait(&status);
+	else if (id == 0)
+		execve(
+			(*shell)->os_command_path,
+			(*shell)->command_args,
+			(*shell)->enviornment
+		);
+	if ((WIFEXITED(status)))
+		((*shell)->exit_status) = WEXITSTATUS(status);
+	if (id != 0)
+	{
+		fflush(stdout);
+		fflush(stdin);
+	}
+	free((*shell)->os_command_path);
 }
