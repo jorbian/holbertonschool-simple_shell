@@ -62,8 +62,8 @@ void read_script(SimpleShell_t *shell)
 {
 	char *current_line = NULL;
 
-	do 
-	{
+	do {
+		
 		current_line = take_input();
 
 		if (current_line != NULL)
