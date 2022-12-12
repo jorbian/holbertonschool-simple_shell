@@ -34,7 +34,7 @@ typedef struct _SimpleShell
 	int is_active;
 	char **path_variable;
 	char **enviornment;
-	void (*builtin)(struct _SimpleShell **);
+	void (*builtin)(struct _SimpleShell *);
 	char *os_command_path;
 	char **command_args;
 } SimpleShell_t;
@@ -47,15 +47,15 @@ typedef struct _SimpleShell
 typedef struct BuiltInCommand_s
 {
 	char *name;
-	void (*exec)(SimpleShell_t **self);
+	void (*exec)(SimpleShell_t *self);
 } BuiltInCommand_t;
 
-void launch_repl(SimpleShell_t **shell);
-void read_script(SimpleShell_t **shell);
+void launch_repl(SimpleShell_t *shell);
+void read_script(SimpleShell_t *shell);
 
-void create_shell(SimpleShell_t **self, char **envp);
-void parse_line(SimpleShell_t **self, char *new_line);
-void free_shell(SimpleShell_t **self);
+void create_shell(SimpleShell_t **shell, char **envp);
+void parse_line(SimpleShell_t *shell, char *new_line);
+void free_shell(SimpleShell_t *shell);
 void free_array(char **an_array);
 
 char *take_input();
@@ -63,16 +63,16 @@ int is_only_spaces(char *string);
 int num_of_spaces(char *string, char *delimiter);
 char **split_string(char *string_to_split, char *delimiter);
 
-void (*get_builtin(char *command))(SimpleShell_t **);
-void clear_screen(SimpleShell_t **self);
-void quit_repl(SimpleShell_t **self);
-void print_env_variables(SimpleShell_t **self);
+void (*get_builtin(char *command))(SimpleShell_t *);
+void clear_screen(SimpleShell_t *self);
+void quit_repl(SimpleShell_t *self);
+void print_env_variables(SimpleShell_t *self);
 char *_getenv(char **envp, char *key);
 
-char *find_command_path(SimpleShell_t **self);
+char *find_command_path(SimpleShell_t *self);
 char *create_test_path(char *dir_path, char *command);
-void create_new_process(SimpleShell_t **shell);
+void create_new_process(SimpleShell_t *shell);
 
-void throw_error(SimpleShell_t **shell, int error_num);
+void throw_error(SimpleShell_t *shell, int error_num);
 
 #endif

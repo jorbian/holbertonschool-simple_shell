@@ -29,35 +29,33 @@ void create_shell(SimpleShell_t **shell, char **envp)
  *
  * Description: WILL REQUIRE SIGNIFICANT OVERHALL TO SUPPORT PIPES!!!
 */
-void parse_line(SimpleShell_t **shell, char *new_line)
+void parse_line(SimpleShell_t *shell, char *new_line)
 {
-	(*shell)->command_args = split_string(new_line, " ");
+	shell->command_args = split_string(new_line, " ");
 
-	(*shell)->builtin = get_builtin((*shell)->command_args[0]);
+	shell->builtin = get_builtin(shell->command_args[0]);
 
-	(*shell)->os_command_path = find_command_path(shell);
+	shell->os_command_path = find_command_path(shell);
 
-	if ((*shell)->builtin != NULL)
-		(*shell)->builtin(shell);
-	else if ((*shell)->os_command_path != NULL)
+	if (shell->builtin != NULL)
+		shell->builtin(shell);
+	else if (shell->os_command_path != NULL)
 		create_new_process(shell);
 	else
 		throw_error(shell, 2);
 
-	free((*shell)->os_command_path);
+	free_array(shell->command_args);
+	free(shell->os_command_path);
 }
 /**
  * free_shell - deallocates memory for the interpreter and its properties
  * @shell: double pointer back to the simple shell
  */
-void free_shell(SimpleShell_t **shell)
+void free_shell(SimpleShell_t *shell)
 {
-	free_array((*shell)->path_variable);
+	free_array(shell->path_variable);
 
-	if ((*shell)->command_args)
-		free_array((*shell)->command_args);
-
-	free(*shell);
+	free(shell);
 }
 
 /**
@@ -79,7 +77,7 @@ void free_array(char **an_array)
  *
  * Return: funciton pointer to back to command to execute
 */
-void (*get_builtin(char *command))(SimpleShell_t **)
+void (*get_builtin(char *command))(SimpleShell_t *)
 {
 	int i;
 	BuiltInCommand_t builtins[] = {

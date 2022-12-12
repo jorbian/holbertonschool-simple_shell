@@ -6,25 +6,29 @@
  *
  * Return: pointer if found, NULL not found
  */
-char *find_command_path(SimpleShell_t **shell)
+char *find_command_path(SimpleShell_t *shell)
 {
 	struct stat file_info;
+	char *test_path;
 	char *command_path;
 	int i = 0;
 
-	command_path = (*shell)->command_args[0];
+	command_path = malloc(sizeof(char) * 255);
 
-	while ((*shell)->path_variable[i])
+	while (shell->path_variable[i])
 	{
 		if (stat(command_path, &file_info) == 0)
 			return (command_path);
 
-		command_path = create_test_path(
-			(*shell)->path_variable[i++],
-			(*shell)->command_args[0]
+		test_path = create_test_path(
+				shell->path_variable[i++],
+				shell->command_args[0]
 		);
+		snprintf(command_path, 255, "%s", test_path);
+		free(test_path);
 	}
 	free(command_path);
+	free(test_path);
 
 	return (NULL);
 }
@@ -69,7 +73,7 @@ char *create_test_path(char *dir_path, char *command)
  *
  * Return: void
  */
-void create_new_process(SimpleShell_t **shell)
+void create_new_process(SimpleShell_t *shell)
 {
 	pid_t id;
 	int status;
@@ -81,12 +85,12 @@ void create_new_process(SimpleShell_t **shell)
 		wait(&status);
 	else if (id == 0)
 		execve(
-			(*shell)->os_command_path,
-			(*shell)->command_args,
-			(*shell)->enviornment
+			shell->os_command_path,
+			shell->command_args,
+			shell->enviornment
 		);
 	if ((WIFEXITED(status)))
-		((*shell)->exit_status) = WEXITSTATUS(status);
+		(shell->exit_status) = WEXITSTATUS(status);
 	if (id != 0)
 	{
 		fflush(stdout);
@@ -97,7 +101,7 @@ void create_new_process(SimpleShell_t **shell)
  * throw_error - dispaly an error message by designated number
  * @shell: double-pointer back to the interpreter (includes error num)
  */
-void throw_error(SimpleShell_t **shell, int error_num)
+void throw_error(SimpleShell_t *shell, int error_num)
 {
 	char specific_error[20];
 	char error_message[255];
@@ -116,8 +120,8 @@ void throw_error(SimpleShell_t **shell, int error_num)
 		255,
 		"%s: %d: %s: %s",
 		getenv("_"),
-		(*shell)->line_num,
-		(*shell)->command_args[0],
+		shell->line_num,
+		shell->command_args[0],
 		specific_error
 	);
 

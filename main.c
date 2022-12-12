@@ -21,13 +21,13 @@ int main(
 	create_shell(&shell, envp);
 
 	if (is_interactive)
-		launch_repl(&shell);
+		launch_repl(shell);
 	else
-		read_script(&shell);
+		read_script(shell);
 
 	exit_status = shell->exit_status;
 
-	free_shell(&shell);
+	free_shell(shell);
 
 	return (exit_status);
 }
@@ -37,11 +37,11 @@ int main(
  *
  * Return: void (for now)
  */
-void launch_repl(SimpleShell_t **shell)
+void launch_repl(SimpleShell_t *shell)
 {
 	char *line = NULL;
 
-	while ((*shell)->is_active == TRUE)
+	while (shell->is_active == TRUE)
 	{
 		printf("($) ");
 		line = take_input();
@@ -57,14 +57,13 @@ void launch_repl(SimpleShell_t **shell)
  *
  * Return: void.
  */
-void read_script(SimpleShell_t **shell)
+void read_script(SimpleShell_t *shell)
 {
 	char *current_line;
 
-	printf("$ ");
 	while ((current_line = take_input()))
 	{
-		((*shell)->line_num)++;
+		(shell->line_num)++;
 		parse_line(shell, current_line);
 		free(current_line);
 		fflush(NULL);
