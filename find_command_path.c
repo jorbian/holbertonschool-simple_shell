@@ -3,7 +3,6 @@
 /**
  * find_command_path - attempts to find executable path to argv[0]
  * @shell: double pointer back to interpreter.
- *
  * Return: pointer if found, NULL not found
  */
 char *find_command_path(SimpleShell_t *shell)
