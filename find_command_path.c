@@ -100,6 +100,7 @@ void create_new_process(SimpleShell_t *shell)
 /**
  * throw_error - dispaly an error message by designated number
  * @shell: double-pointer back to the interpreter (includes error num)
+ * @error_num: number to invoke corresponding error.
  */
 void throw_error(SimpleShell_t *shell, int error_num)
 {
