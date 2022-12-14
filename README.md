@@ -3,6 +3,8 @@
 ## Welcome to our Simple Shell Project!
 I will try and give a decent explanation/overview of our project for you all to enjoy.
 
+![Simple_Shell Flowchart](https://user-images.githubusercontent.com/67380001/207740437-5819833b-4600-4d8c-a10b-bbd71cde8333.png)
+
 ## How to use the Simple Shell
 You must first compile all the .c files in the repository to produce an executable using this code:
 ```
